@@ -1,3 +1,7 @@
+:root {
+  --color: #ffffff;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

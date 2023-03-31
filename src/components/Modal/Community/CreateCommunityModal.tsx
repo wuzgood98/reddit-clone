@@ -1,12 +1,13 @@
 import Button from '@/components/Button';
 import { auth, firestore } from '@/firebase/clientApp';
-import { doc, getDoc, runTransaction, serverTimestamp, setDoc } from 'firebase/firestore';
+import { doc, runTransaction, serverTimestamp } from 'firebase/firestore';
 import Image from 'next/image';
 import React, { ChangeEvent, SetStateAction, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { BsFillEyeFill, BsFillPersonFill } from "react-icons/bs";
 import { HiLockClosed } from "react-icons/hi";
 import styles from '../../../styles/Global.module.css';
+import { useRouter } from 'next/router';
 
 type CreateCommunityModalProps = {
   createCommunityModalOpen: boolean
@@ -20,6 +21,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ createCommu
   const [communityType, setCommunityType] = useState<string>('public')
   const [error, setError] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
+  const router = useRouter()
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -36,6 +38,8 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ createCommu
   const onCommunityTypeChecked = (e: ChangeEvent<HTMLInputElement>) => {
     setCommunityType(e.target.value)
   }
+
+  const closeModal = () => setCreateCommunityModalOpen(false)
 
   const handleCreateCommunity = async () => {
     setLoading(false)
@@ -78,8 +82,8 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ createCommu
           }
         )
       })
-
-
+      closeModal()
+      router.push(`/r/${communityName}`)
     } catch (err: any) {
       console.log('Handle create community error: ', err)
       setError(err.message)
@@ -93,7 +97,6 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ createCommu
     rest: 'capitalize rounded-full text-sm font-bold flex items-center justify-center min-w-[2rem] px-4 py-2 h-full',
   }
 
-  const closeModal = () => setCreateCommunityModalOpen(false)
 
   return (
     <div className={`${createCommunityModalOpen ? 'opacity-100 visible z-10' : 'opacity-0 invisible -z-10'} fixed flex items-center justify-center p-5 h-full w-full bg-black/60 left-0 top-0 motion-safe:transition-all duration-200 transform motion-reduce:transition-none`}>
@@ -110,7 +113,8 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ createCommu
 
         <div className='mb-5 flex flex-col gap-2 px-5'>
           <span className='text-base text-gray-400 relative top-[2.07rem] left-[0.8125rem] h-4 w-max pointer-events-none'>r/</span>
-          <input onChange={handleChange} value={communityName} maxLength={21} type="text" required className='w-full py-2 pl-6 pr-3 border border-redditBorder rounded-sm outline-none focus:border-redditBlue hover:border-redditBlue motion-safe:transition-colors motion-reduce:transition-none' />
+          <label htmlFor="communityName" className='sr-only'>community name</label>
+          <input onChange={handleChange} value={communityName} id='communityName' maxLength={21} type="text" required className='w-full py-2 pl-6 pr-3 border border-redditBorder rounded-sm outline-none focus:border-redditBlue hover:border-redditBlue motion-safe:transition-colors motion-reduce:transition-none' />
           <p className={`${maxCharLength === 0 ? 'text-red-400' : 'text-gray-400'} text-xs motion-safe:transition-colors motion-reduce:transition-none`}>{maxCharLength} Characters remaining</p>
           {(!communityName || error) && <p className='text-red-400 text-xs'>{error || 'A community name is required'}</p>}
         </div>

@@ -1,10 +1,10 @@
+import UseImage from '@/components/Global/Image';
+import Spinner from '@/components/Global/Spinner';
 import { auth, firestore } from '@/firebase/clientApp';
-import Image from 'next/image';
+import { User } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 import React, { useEffect } from 'react';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import styles from '../../../styles/Global.module.css';
-import { User } from 'firebase/auth';
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 
 const OAuthButtons: React.FC = () => {
   const [signInWithGoogle, userCred, loading, error] = useSignInWithGoogle(auth);
@@ -25,10 +25,10 @@ const OAuthButtons: React.FC = () => {
     <div className="flex flex-col items-center justify-center gap-2">
       <button onClick={() => signInWithGoogle()} className={`${loading ? 'bg-redditOrange pointer-events-none' : 'bg-transparent'} w-full rounded-full flex justify-between items-center text-sm text-[#3c4043] border border-redditBorder p-3 hover:bg-[#f8fbfe] hover:border-[#d2e3fc] motion-safe:transition motion-reduce:transition-none`}>
         {loading
-          ? <div className={styles.spinner} />
+          ? <Spinner />
           : (
             <>
-              <Image src='/images/googlelogo.png' alt='google logo' className='h-5 w-5' height={2048} width={2048} priority />
+              <UseImage className='h-5 w-5' alt='google logo' imageURL='/images/googlelogo.png' />
               <span className='mx-auto'>Continue with Google</span>
             </>
           )

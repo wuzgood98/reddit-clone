@@ -33,7 +33,7 @@ const AuthModal: React.FC = () => {
   }, [handleClose, user])
 
   return (
-    <div onClick={closeModal} className={`${modalState.open ? 'opacity-100 visible z-10' : 'opacity-0 invisible -z-10'} fixed p-5 h-full w-full bg-black/40 left-0 top-0 flex items-center justify-center motion-safe:transition-all duration-200 transform motion-reduce:transition-none`}>
+    <div onClick={closeModal} className={`${modalState.open ? 'opacity-100 visible z-10' : 'opacity-0 invisible'} fixed p-5 h-full w-full bg-black/40 left-0 top-0 flex items-center justify-center motion-safe:transition-all duration-200 transform motion-reduce:transition-none`}>
       <div className={`${modalState.open ? 'scale-100' : 'scale-90'} relative bg-white max-w-[25rem] w-full rounded-lg min-h-[20rem] px-8 py-12 md:px-14 md:py-16 motion-safe:transition-all duration-200 transform motion-reduce:transition-none`}>
         <Button onClick={closeModal} classNames='close-btn absolute top-4 right-4'>
           <svg xmlns="http://www.w3.org/2000/svg" className='close-btn [height:inherit] [width:inherit]' width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#878a93" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>

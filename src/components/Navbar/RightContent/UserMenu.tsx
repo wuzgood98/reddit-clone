@@ -1,4 +1,5 @@
 import { authModalState } from '@/atoms/authModalAtom';
+import { communityState } from '@/atoms/communitiesAtom';
 import { auth } from '@/firebase/clientApp';
 import { signOut, User } from 'firebase/auth';
 import Image from 'next/image';
@@ -6,7 +7,7 @@ import React, { useState } from 'react';
 import { CgProfile } from 'react-icons/cg';
 import { IoSparkles } from 'react-icons/io5';
 import { MdOutlineLogin } from 'react-icons/md';
-import { useSetRecoilState } from 'recoil';
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
 
 type UserMenuProps = {
   user?: User | null
@@ -14,6 +15,7 @@ type UserMenuProps = {
 
 const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false)
+  const resetCommunityState = useResetRecoilState(communityState)
 
   const setAuthModalState = useSetRecoilState(authModalState)
 
@@ -26,16 +28,17 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
 
   const toggleMenu = () => setMenuOpen(prev => !prev)
 
-  const closeMenuAndLogOut = () => {
+  const logout = async () => {
     setMenuOpen(false)
-    signOut(auth)
+    await signOut(auth)
+    resetCommunityState()
   }
 
   return (
     <div className="flex items-center justify-center">
-      <div className={`relative text-left inline-block group`}>
+      <div className={`relative z-[5] text-left inline-block group`}>
         <span className="rounded-md">
-          <button type='button' aria-haspopup="true" aria-expanded="true" aria-controls="headlessui-menu-items-117" onClick={toggleMenu} className='inline-flex items-center gap-1 ml-2 p-1 group transition duration-150 ease-in-out bg-white border border-transparent hover:border-gray-300 rounded-md hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800'>
+          <button type='button' aria-haspopup="true" aria-expanded={`${!!menuOpen}`} aria-controls="headlessui-menu-items-117" onClick={toggleMenu} className='inline-flex items-center gap-1 ml-2 p-1 group transition duration-150 ease-in-out bg-white border border-transparent hover:border-gray-300 rounded-md hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800'>
             {
               user
                 ? (
@@ -78,13 +81,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
                   <p className="text-sm font-medium leading-5 text-gray-500 truncate">{user?.email}</p>
                 </li>
                 <li role="menuitem" className="">
-                  <button tabIndex={0} onClick={() => setMenuOpen(false)} className="text-gray-700 flex items-center gap-2 w-full px-4 py-2 text-sm leading-5 text-left hover:bg-redditBlue hover:text-white motion-safe:transition-colors motion-reduce:transition-none overflow-hidden" role="menuitem">
+                  <button type='button' tabIndex={0} onClick={() => setMenuOpen(false)} className="text-gray-700 flex items-center gap-2 w-full px-4 py-2 text-sm leading-5 text-left hover:bg-redditBlue hover:text-white motion-safe:transition-colors motion-reduce:transition-none overflow-hidden" role="menuitem">
                     <CgProfile />
                     <span className='capitalize'>profile</span>
                   </button>
                 </li>
                 <li role="menuitem" className="">
-                  <button tabIndex={3} onClick={closeMenuAndLogOut} aria-label='Sign out' className='text-gray-700 flex items-center gap-2 w-full px-4 py-2 text-sm leading-5 text-left hover:bg-redditBlue hover:text-white motion-safe:transition-colors motion-reduce:transition-none overflow-hidden' role="menuitem">
+                  <button type='button' tabIndex={3} onClick={logout} aria-label='Sign out' className='text-gray-700 flex items-center gap-2 w-full px-4 py-2 text-sm leading-5 text-left hover:bg-redditBlue hover:text-white motion-safe:transition-colors motion-reduce:transition-none overflow-hidden' role="menuitem">
                     <MdOutlineLogin />
                     <span className='capitalize'>log out</span>
                   </button>
@@ -92,7 +95,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               </>
             ) : (
               <li role="menuitem" className="">
-                <button tabIndex={3} aria-label='Sign out' className='text-gray-700 flex items-center gap-2 w-full px-4 py-2 text-sm leading-5 text-left hover:bg-redditBlue hover:text-white motion-safe:transition-colors motion-reduce:transition-none overflow-hidden' role="menuitem" onClick={() => handleClick("login")}>
+                <button type='button' tabIndex={3} aria-label='Sign out' className='text-gray-700 flex items-center gap-2 w-full px-4 py-2 text-sm leading-5 text-left hover:bg-redditBlue hover:text-white motion-safe:transition-colors motion-reduce:transition-none overflow-hidden' role="menuitem" onClick={() => handleClick("login")}>
                   <MdOutlineLogin />
                   <span className='capitalize'>log in / sign up</span>
                 </button>

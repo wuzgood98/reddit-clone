@@ -1,12 +1,12 @@
 import Button from '@/components/Button';
+import Spinner from '@/components/Global/Spinner';
 import { auth, firestore } from '@/firebase/clientApp';
 import { FIREBASE_ERRORS } from '@/firebase/erros';
 import autoAnimate from '@formkit/auto-animate';
-import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import styles from '../../../styles/Global.module.css';
 import { User } from 'firebase/auth';
 import { addDoc, collection } from 'firebase/firestore';
+import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 
 const SignUp: React.FC = () => {
   const [signUpForm, setSignUpForm] = useState({
@@ -31,7 +31,7 @@ const SignUp: React.FC = () => {
   }
 
   // Firebase logic
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (userError) setUserError('')
     if (signUpForm.password !== signUpForm.confirmPassword) {
@@ -39,7 +39,7 @@ const SignUp: React.FC = () => {
       return;
     }
     // Password match
-    createUserWithEmailAndPassword(signUpForm.email, signUpForm.password)
+    await createUserWithEmailAndPassword(signUpForm.email, signUpForm.password)
   }
 
   const createUserDocument = async (user: User) => {
@@ -79,7 +79,7 @@ const SignUp: React.FC = () => {
       }
       <Button submit classNames='w-full bg-redditOrange hover:bg-[#ff5019] text-white text-sm rounded-full p-3 font-medium'>
         {loading
-          ? <div className={styles.spinner} />
+          ? <Spinner />
           : 'Sign Up'
         }
       </Button>

@@ -1,12 +1,12 @@
 import { authModalState } from '@/atoms/authModalAtom';
 import Button from '@/components/Button';
+import Spinner from '@/components/Global/Spinner';
 import { auth } from '@/firebase/clientApp';
 import { FIREBASE_ERRORS } from '@/firebase/erros';
 import autoAnimate from '@formkit/auto-animate';
 import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useRecoilState } from 'recoil';
-import styles from '../../../styles/Global.module.css';
 
 type LoginProps = {
 
@@ -70,7 +70,7 @@ const Login: React.FC<LoginProps> = () => {
 
       <Button submit classNames='w-full bg-redditOrange hover:bg-[#ff5019] text-white text-sm rounded-full p-3 font-medium'>
         {loading
-          ? <div className={styles.spinner} />
+          ? <Spinner />
           : 'Log in'
         }
       </Button>

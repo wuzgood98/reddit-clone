@@ -1,11 +1,11 @@
 import { authModalState } from '@/atoms/authModalAtom';
 import Button from '@/components/Button';
+import Spinner from '@/components/Global/Spinner';
 import { auth } from '@/firebase/clientApp';
 import autoAnimate from '@formkit/auto-animate';
 import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
 import { useRecoilState } from 'recoil';
-import styles from '../../../styles/Global.module.css';
 
 
 const ResetPassword: React.FC = () => {
@@ -50,7 +50,7 @@ const ResetPassword: React.FC = () => {
             </fieldset>
             <Button submit classNames='w-full bg-redditOrange hover:bg-[#ff5019] text-white text-sm rounded-full p-3 font-medium'>
               {sending
-                ? <div className={styles.spinner} />
+                ? <Spinner />
                 : 'Reset Password'
               }
             </Button>

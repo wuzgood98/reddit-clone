@@ -4,6 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
+        <title>Reddit</title>
         <meta name="description" content="A clone of the reddit web app." />
         <meta name="author" content="Gideon Addo" />
         <meta

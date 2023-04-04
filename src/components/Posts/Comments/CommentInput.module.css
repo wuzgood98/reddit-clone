@@ -1,0 +1,12 @@
+.focus:has(textarea:focus) {
+  --tw-border-opacity: 1;
+  border-color: rgb(31 41 55 / var(--tw-border-opacity));
+}
+
+.focus {
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity));
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 0.25rem;
+}

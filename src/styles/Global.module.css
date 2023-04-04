@@ -1,6 +1,6 @@
 .spinner {
-  width: 20px;
-  height: 20px;
+  width: 17px;
+  height: 17px;
   border-radius: 50%;
   background: radial-gradient(farthest-side, var(--color) 94%, #0000) top/3px 3px no-repeat,
     conic-gradient(#0000 30%, var(--color));

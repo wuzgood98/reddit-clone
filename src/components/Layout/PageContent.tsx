@@ -1,12 +1,10 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode } from "react";
 
 type PageContentProps = {
-  children: ReactNode
+  children: ReactNode;
 };
 
 const PageContent: React.FC<PageContentProps> = ({ children }) => {
-  console.log(children)
-
   return (
     <div className="flex w-full p-4">
       <div className="flex w-[95%] max-w-[60rem] mx-auto">
@@ -21,6 +19,6 @@ const PageContent: React.FC<PageContentProps> = ({ children }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 export default PageContent;

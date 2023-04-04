@@ -1,30 +1,29 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState } from "react";
 
 const useSelectFile = () => {
-  const [selectedFile, setSelectedFile] = useState<string>('')
+  const [selectedFile, setSelectedFile] = useState<string>();
 
   const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
-    const reader = new FileReader()
+    const reader = new FileReader();
 
-    const files = e.target.files?.[0]
-
-    if (files) {
-      reader.readAsDataURL(files)
+    if (e.target.files?.[0]) {
+      reader.readAsDataURL(e.target.files[0]);
     }
 
     reader.onload = (readerEvent) => {
-      const result = readerEvent.target?.result
-      if (result) {
-        setSelectedFile(result as string)
+      if (readerEvent.target?.result) {
+        //console.log(readerEvent.target.result);
+        setSelectedFile(readerEvent.target.result as string);
+        console.log(selectedFile);
       }
-    }
-    console.log(selectedFile)
-  }
+    };
+    console.log(selectedFile);
+  };
 
   return {
     selectedFile,
     setSelectedFile,
-    onSelectFile
-  }
-}
+    onSelectFile,
+  };
+};
 export default useSelectFile;

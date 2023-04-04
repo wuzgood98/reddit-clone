@@ -81,7 +81,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({
     const { communityId } = router.query;
     const { title, body } = textInput;
     // create new post object => type Post
-    const newPost: Post = {
+    const newPost = {
       communityId: communityId as string,
       communityImageURL: communityImageURL || "",
       creatorId: user.uid,
